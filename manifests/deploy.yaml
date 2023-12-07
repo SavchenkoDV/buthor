@@ -1,33 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: guestbook-ui
+  name: will-playground
+  namespace: dev
+  labels:
+    app: will-playground
 spec:
   replicas: 1
-  revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: guestbook-ui
+      app: will-playground
   template:
     metadata:
       labels:
-        app: guestbook-ui
+        app: will-playground
     spec:
       containers:
-      - image: gcr.io/heptio-images/ks-guestbook-demo:0.2
-        name: guestbook-ui
-        ports:
-        - containerPort: 80
-
+        - name: playground
+          image: "wil42/playground:v1"
+          ports:
+            - containerPort: 8888
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
-  name: guestbook-ui
+  name: will-playground-service
+  namespace: dev
 spec:
-  ports:
-  - port: 80
-    targetPort: 80
   selector:
-    app: guestbook-ui
+    app: will-playground
+  ports:
+    - protocol: TCP
+      port: 8888
+      targetPort: 8888
+  type: LoadBalancer
