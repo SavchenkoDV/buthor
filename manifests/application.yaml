@@ -31,7 +31,7 @@ spec:
     app: wil
   ports:
     - protocol: TCP
-      port: 8080
+      port: 80
       targetPort: 8888
 
 ---
@@ -42,7 +42,7 @@ metadata:
   name: ingress-apps
 spec:
   rules:
-  - host: wil.42
+  - host:
     http:
       paths:
       - path: /
@@ -51,4 +51,4 @@ spec:
           service:
             name: svc-wil
             port:
-              number: 8080
+              number: 80
